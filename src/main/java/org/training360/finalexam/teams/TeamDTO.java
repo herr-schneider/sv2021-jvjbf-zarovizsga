@@ -21,7 +21,6 @@ public class TeamDTO {
 
     private String name;
 
-    @OneToMany(cascade = {PERSIST, REMOVE}, mappedBy = "team")
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
 //    @JsonBackReference

@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import org.training360.finalexam.players.Player;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class UpdateWithExistingPlayerCommand {
 
     private long playerId;
 
-    private long teamId;
-
-    public UpdateWithExistingPlayerCommand(Long id) {
+    public UpdateWithExistingPlayerCommand(Long playerId){
+        this.playerId = playerId;
     }
+
 }

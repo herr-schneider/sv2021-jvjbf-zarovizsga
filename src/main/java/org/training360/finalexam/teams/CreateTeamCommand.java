@@ -1,15 +1,15 @@
 package org.training360.finalexam.teams;
 
 import lombok.*;
+import org.training360.finalexam.validators.Name;
 
-import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class CreateTeamCommand {
 
-    @NotNull
+    @Name
     private String name;
 }
 

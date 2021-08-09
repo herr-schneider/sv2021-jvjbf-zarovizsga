@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.training360.finalexam.teams.Team;
+import org.training360.finalexam.validators.Name;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -21,10 +21,9 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
-    @NotNull
+
     private String name;
 
     private LocalDate birthDate;
@@ -32,7 +31,6 @@ public class Player {
     private PositionType position;
 
     @ManyToOne
-    @JsonBackReference
     private Team team;
 
     public Player(String name, LocalDate birthDate, PositionType position) {

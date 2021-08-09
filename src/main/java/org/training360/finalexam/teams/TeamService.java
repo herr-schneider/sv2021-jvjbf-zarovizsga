@@ -6,9 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.training360.finalexam.players.CreatePlayerCommand;
 import org.training360.finalexam.players.Player;
 import org.training360.finalexam.players.PlayerRepo;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,24 +49,30 @@ public class TeamService {
                 createPlayerCommand.getPositionType());
         Team team = teamRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("There is no " + id + " ID team"));
+        playerRepo.save(player);
         team.addPlayer(player);
         teamRepo.save(team);
         return modelMapper.map(team, TeamDTO.class);
     }
 
-    public TeamDTO addPlayerToTeam(UpdateWithExistingPlayerCommand command) {
+    @Transactional
+    public TeamDTO addPlayerToTeam(long id, UpdateWithExistingPlayerCommand command) {
         Player player = playerRepo.findById(command.getPlayerId())
                 .orElseThrow(() -> new IllegalArgumentException("There is no " + command.getPlayerId() + " ID player"));
 
-        Team team = teamRepo.findById(command.getTeamId())
-                .orElseThrow(() -> new IllegalArgumentException("There is no " + command.getTeamId() + " ID team"));
+        Team team = teamRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("There is no " + id + " ID team"));
 
         long numOfPos = team.getPlayers()
                 .stream()
-                .filter(p -> p.getPosition()==player.getPosition())
+                .filter(p -> p.getPosition().equals(player.getPosition()))
                 .count();
-        if (player.getTeam() != null && numOfPos < 2) {team.addPlayer(player);}
-
+        System.out.println(player.getTeam());
+//        if (player.getTeam() != null && numOfPos < 2) {
+        if (numOfPos < 2) {
+        team.addPlayer(player);
+            teamRepo.save(team);
+       }
         return modelMapper.map(team, TeamDTO.class);
     }
 }

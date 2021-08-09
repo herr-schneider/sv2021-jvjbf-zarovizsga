@@ -1,5 +1,6 @@
 package org.training360.finalexam.teams;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.training360.finalexam.players.Player;
@@ -26,9 +27,6 @@ public class Team {
     private String name;
 
     @OneToMany(cascade = {PERSIST, REMOVE}, mappedBy = "team")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JsonIgnore
     private List<Player> players;
 
     public Team(String name) {

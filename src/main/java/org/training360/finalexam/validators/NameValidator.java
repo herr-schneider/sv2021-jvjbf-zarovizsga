@@ -10,7 +10,7 @@ public class NameValidator implements ConstraintValidator<Name, String> {
     int maxLength;
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
-        if (name.isBlank()){return false;}
+        if (name == null || name.isBlank()){return false;}
         return name.trim().length()>minLength && name.length()<maxLength &&
                 Character.isUpperCase(name.trim().charAt(0)); // && person.getName().trim().contains(" ");
         }

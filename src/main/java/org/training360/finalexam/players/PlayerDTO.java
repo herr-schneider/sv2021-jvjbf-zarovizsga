@@ -1,8 +1,8 @@
 package org.training360.finalexam.players;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.training360.finalexam.teams.Team;
 
 import java.time.LocalDate;
@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Data
 public class PlayerDTO {
 
+//    @JsonIgnore
     private Long id;
 
     private String name;
@@ -20,6 +21,10 @@ public class PlayerDTO {
 
     private PositionType position;
 
+    @EqualsAndHashCode.Exclude
+   @ToString.Exclude
+//    @JsonIgnore
+    @JsonBackReference
     private Team team;
 
 }

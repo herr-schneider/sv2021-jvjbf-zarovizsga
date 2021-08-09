@@ -43,24 +43,17 @@ public class TeamController {
     @PostMapping("/{id}/players")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponse(responseCode = "404", description = "Team not found")
-    public ResponseEntity updateWithId(@PathVariable("id") long id,
+    public TeamDTO updateWithId(@PathVariable("id") long id,
                                        @Valid @RequestBody CreatePlayerCommand createPlayerCommand) {
-        try {
-            return ResponseEntity.ok(teamService.updateWithId(id, createPlayerCommand));
-        } catch (IllegalArgumentException iae) {
-            return ResponseEntity.notFound().build();
-        }
+            return teamService.updateWithId(id, createPlayerCommand);
     }
 
     @PutMapping("/{id}/players")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponse(responseCode = "404", description = "Package not found")
-    public ResponseEntity addPlayerToTeam(@RequestBody UpdateWithExistingPlayerCommand command) {
-        try {
-            return ResponseEntity.ok(teamService.addPlayerToTeam(command));
-        } catch (IllegalArgumentException iae) {
-            return ResponseEntity.notFound().build();
-        }
+    public TeamDTO addPlayerToTeam(@PathVariable("id") long id, @Valid @RequestBody UpdateWithExistingPlayerCommand command) {
+            return teamService.addPlayerToTeam(id, command);
+
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -71,7 +64,7 @@ public class TeamController {
                 .collect(Collectors.toList());
 
         Problem problem = Problem.builder()
-                .withType(URI.create("/api/registry/not-valid"))
+                .withType(URI.create("teams/not-found"))
                 .withTitle("Validation error")
                 .withStatus(Status.BAD_REQUEST)
                 .withDetail(mnve.getMessage())
@@ -87,7 +80,7 @@ public class TeamController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Problem> handleNotFound(IllegalArgumentException iae) {
         Problem problem = Problem.builder()
-                .withType(URI.create("/api/registry/param"))
+                .withType(URI.create("teams/not-found"))
                 .withTitle("Not found!")
                 .withStatus(Status.NOT_FOUND)
                 .withDetail(iae.getMessage())
