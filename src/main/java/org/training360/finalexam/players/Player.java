@@ -11,6 +11,7 @@ import org.training360.finalexam.validators.Name;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor
@@ -33,9 +34,15 @@ public class Player {
     @ManyToOne
     private Team team;
 
+    public void setTeam(Team team) {
+        team.addPlayer(this);
+    }
+
     public Player(String name, LocalDate birthDate, PositionType position) {
         this.name = name;
         this.birthDate = birthDate;
         this.position = position;
     }
+
+
 }
